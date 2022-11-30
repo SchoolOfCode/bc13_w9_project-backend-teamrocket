@@ -1,43 +1,5 @@
 import query from '../db/index.js';
 
-const optionsArr = [{
-    option: "1",
-    votes: 0,
-    eliminated: false,
-    options: {
-        pros: ["pro1", "pro2"],
-        cons: ["con1", "con2"]
-    }
-},
-{
-    option: "2",
-    votes: 0,
-    eliminated: false,
-    options: {
-        pros: ["pro1", "pro2"],
-        cons: ["con1", "con2"]
-    }
-},
-{
-    option: "3",
-    votes: 0,
-    eliminated: false,
-    options: {
-        pros: ["pro1", "pro2"],
-        cons: ["con1", "con2"]
-    }
-},
-{
-    option: "4",
-    votes: 0,
-    eliminated: false,
-    options: {
-        pros: ["pro1", "pro2"],
-        cons: ["con1", "con2"]
-    }
-},
-]
-
 // GET
 // get all options
 export async function getAllOptions() {
@@ -47,10 +9,23 @@ export async function getAllOptions() {
 }
 
 // get all pros/cons
+export async function getAllProsCons() {
+    const result = await query('SELECT pros_cons FROM pros_cons;')
+    const prosConsList = result.rows;
+    return prosConsList;
+}
 
-// get all previous results
+// TODO if time: get all previous results
 
 // POST
-
 // post a new option
+export async function addNewOption(option){
+    const result = await query('INSERT INTO options (author, option) VALUES ($1, $2);', [option.author, option.option])
+    return option;
+}
+
 // post a new pro/con
+export async function addNewProCon(procon){
+    const result = await query('INSERT INTO pros_cons (author, category, pros_cons) VALUES ($1, $2, $3);', [procon.author, procon.category, procon.pros_cons])
+    return procon;
+}
